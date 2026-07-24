@@ -5,153 +5,129 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>통합과학 — 관측 스테이션</title>
 <style>
-  :root {
-    --abyss: #061621; --panel: #0c2438; --panel-2: #102c44; --rail: #081b2b;
-    --foam: #eaf3f2; --mist: #a9c3ca; --teal: #3fc9b0; --teal-dim: #2a8f7c;
-    --coral: #f2965c; --cold: #6fa8e0; --violet: #b79cf0; --line: #1c3c52; --ink: #eaf3f2;
-  }
-  :root[data-theme="light"] {
-    --abyss: #eef5f4; --panel: #ffffff; --panel-2: #f4f9f8; --rail: #e2edec;
-    --foam: #0c2233; --mist: #4a6270; --teal: #1f9683; --teal-dim: #17765f;
-    --coral: #d97a3f; --cold: #3a72b8; --violet: #7c5cc4; --line: #d3e2e0; --ink: #0c2233;
-  }
-  @media (prefers-color-scheme: light) {
-    :root:not([data-theme="dark"]) {
-      --abyss: #eef5f4; --panel: #ffffff; --panel-2: #f4f9f8; --rail: #e2edec;
-      --foam: #0c2233; --mist: #4a6270; --teal: #1f9683; --teal-dim: #17765f;
-      --coral: #d97a3f; --cold: #3a72b8; --violet: #7c5cc4; --line: #d3e2e0; --ink: #0c2233;
-    }
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0; background: var(--abyss); color: var(--ink);
-    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
-    min-height: 100vh;
-  }
-  .display { font-family: Georgia, "Noto Serif KR", "Batang", serif; }
-  .hero { padding: 64px 30px 30px; max-width: 1080px; margin: 0 auto; }
-  .hero a.back { color: var(--mist); font-size: 12.5px; text-decoration: none; }
-  .hero a.back:hover { color: var(--teal); }
-  .hero .eyebrow { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--teal); font-weight: 700; margin-top: 14px; display: block; }
-  .hero h1 { font-size: clamp(30px, 5vw, 46px); margin: 10px 0 14px; text-wrap: balance; }
-  .hero p { color: var(--mist); font-size: 15.5px; line-height: 1.7; max-width: 640px; margin: 0; }
+@import url('https://fonts.googleapis.com/css2?family=Jua&family=Gothic+A1:wght@400;500;600;700;800;900&display=swap');
+:root {
+--abyss: #eef6fb; --panel: #ffffff; --panel-2: #f4f9fb; --rail: #ffffff;
+--foam: #12203a; --mist: #5c7086; --teal: #14b8a6; --teal-dim: #0f766e;
+--coral: #ff9752; --cold: #3db7e8; --violet: #8b6bf0; --line: #dfeaf1; --ink: #12203a;
+}
+* { box-sizing: border-box; }
+body {
+margin: 0; background: var(--abyss); color: var(--ink);
+font-family: "Gothic A1", -apple-system, BlinkMacSystemFont, "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+min-height: 100vh; -webkit-font-smoothing: antialiased;
+}
+.display { font-family: "Jua", "Gothic A1", sans-serif; font-weight: 400; letter-spacing: -.01em; }
+.hero { padding: 64px 30px 30px; max-width: 1080px; margin: 0 auto; }
+.hero a.back { color: var(--mist); font-size: 12.5px; text-decoration: none; font-weight: 700; }
+.hero a.back:hover { color: var(--teal-dim); }
+.hero .eyebrow { font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--teal-dim); font-weight: 800; margin-top: 14px; display: block; }
+.hero h1 { font-size: clamp(30px, 5vw, 46px); margin: 10px 0 14px; text-wrap: balance; font-weight: 400; }
+.hero p { color: var(--mist); font-size: 15.5px; line-height: 1.8; max-width: 640px; margin: 0; }
 
-  .grid { max-width: 1080px; margin: 30px auto 80px; padding: 0 30px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; }
-  .book-card {
-    display: block; background: var(--panel); border: 1px solid var(--line); border-radius: 16px;
-    padding: 26px; text-decoration: none; color: inherit; transition: border-color .15s, transform .15s;
-    position: relative; overflow: hidden;
-  }
-  .book-card:hover { border-color: var(--teal-dim); transform: translateY(-2px); }
-  .book-card .icon-badge { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 16px; }
-  .book-card.c-coral .icon-badge { background: rgba(242,150,92,.16); color: var(--coral); }
-  .book-card.c-cold .icon-badge { background: rgba(111,168,224,.16); color: var(--cold); }
-  .book-card h3 { font-size: 21px; margin: 0 0 8px; }
-  .book-card p { color: var(--mist); font-size: 13.5px; line-height: 1.7; margin: 0 0 16px; }
-  .book-card .topics { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 4px; }
-  .book-card .topics span { font-size: 10.5px; padding: 3px 8px; border-radius: 999px; background: var(--panel-2); border: 1px solid var(--line); color: var(--mist); }
-  .book-card .status-pill { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 999px; background: rgba(63,201,176,.16); color: var(--teal); margin-top: 12px; }
-  .book-card .go { position: absolute; top: 26px; right: 26px; color: var(--mist); font-size: 18px; }
+.grid { max-width: 1080px; margin: 30px auto 80px; padding: 0 30px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+.book-card {
+display: block; background: var(--panel); border: 3px solid var(--line); border-radius: 28px;
+padding: 26px; text-decoration: none; color: inherit; transition: border-color .15s, transform .15s, box-shadow .15s;
+position: relative; overflow: hidden; box-shadow: 0 10px 24px -8px rgba(18,32,58,.12), 0 2px 6px rgba(18,32,58,.06);
+}
+.book-card:hover { border-color: var(--teal); transform: translateY(-4px); box-shadow: 0 16px 34px -10px rgba(18,32,58,.2); }
+.book-card .icon-badge { width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 16px; }
+.book-card.c-coral .icon-badge { background: #ffe8d3; color: #c2590f; }
+.book-card.c-cold .icon-badge { background: #d9f0fb; color: #1179a6; }
+.book-card h3 { font-size: 21px; margin: 0 0 8px; font-weight: 400; }
+.book-card p { color: var(--mist); font-size: 13.5px; line-height: 1.7; margin: 0 0 16px; }
+.book-card .topics { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 4px; }
+.book-card .topics span { font-size: 10.5px; font-weight: 700; padding: 4px 10px; border-radius: 999px; background: var(--panel-2); border: 2px solid var(--line); color: var(--mist); }
+.book-card .status-pill { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 800; padding: 5px 11px; border-radius: 999px; background: #ccfbf1; color: var(--teal-dim); margin-top: 12px; }
+.book-card .go { position: absolute; top: 26px; right: 26px; color: var(--teal); font-size: 20px; font-weight: 900; }
 
-  .theme-toggle { position: fixed; top: 16px; right: 18px; background: var(--panel); border: 1px solid var(--line); color: var(--mist); border-radius: 999px; padding: 6px 12px; font-size: 11px; cursor: pointer; z-index: 10; }
+.theme-toggle { display: none; }
 
-  .qr-block { margin-top: 22px; }
-  .qr-toggle {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: var(--panel); border: 1px solid var(--line); color: var(--ink);
-    border-radius: 10px; padding: 10px 16px; font-size: 13.5px; font-weight: 700;
-    cursor: pointer; font-family: inherit;
-  }
-  .qr-toggle:hover { border-color: var(--teal-dim); }
-  .qr-toggle .qr-caret { color: var(--mist); transition: transform .15s; display: inline-block; }
-  .qr-toggle.open .qr-caret { transform: rotate(180deg); }
-  .qr-panel {
-    margin-top: 12px; background: var(--panel); border: 1px solid var(--line);
-    border-radius: 14px; padding: 20px; display: inline-flex; flex-direction: column;
-    align-items: center; gap: 10px; max-width: 260px;
-  }
-  .qr-panel[hidden] { display: none; }
-  .qr-panel .qr-code { background: #fff; padding: 10px; border-radius: 8px; line-height: 0; }
-  .qr-panel .qr-code svg { display: block; width: 160px; height: 160px; }
-  .qr-panel .qr-url { color: var(--mist); font-size: 11.5px; word-break: break-all; margin: 0; text-align: center; }
-  .qr-panel .qr-hint { color: var(--mist); font-size: 12px; margin: 0; text-align: center; }
+.qr-block { margin-top: 22px; }
+.qr-toggle {
+display: inline-flex; align-items: center; gap: 8px;
+background: var(--panel); border: 2px solid var(--line); color: var(--ink);
+border-radius: 999px; padding: 10px 18px; font-size: 13.5px; font-weight: 800;
+cursor: pointer; font-family: inherit; box-shadow: 0 10px 24px -8px rgba(18,32,58,.12);
+}
+.qr-toggle:hover { border-color: var(--teal); }
+.qr-toggle .qr-caret { color: var(--mist); transition: transform .15s; display: inline-block; }
+.qr-toggle.open .qr-caret { transform: rotate(180deg); }
+.qr-panel {
+margin-top: 12px; background: var(--panel); border: 2px solid var(--line);
+border-radius: 20px; padding: 20px; display: inline-flex; flex-direction: column;
+align-items: center; gap: 10px; max-width: 260px; box-shadow: 0 10px 24px -8px rgba(18,32,58,.12);
+}
+.qr-panel[hidden] { display: none; }
+.qr-panel .qr-code { background: #fff; padding: 10px; border-radius: 12px; line-height: 0; border: 2px solid var(--line); }
+.qr-panel .qr-code svg { display: block; width: 160px; height: 160px; }
+.qr-panel .qr-url { color: var(--mist); font-size: 11.5px; word-break: break-all; margin: 0; text-align: center; }
+.qr-panel .qr-hint { color: var(--mist); font-size: 12px; margin: 0; text-align: center; }
 </style>
 </head>
 <body>
 
 <div class="hero">
-  <a class="back" href="https://wmfsljy-coder.github.io/science-teacher-hub/">← 지구과학 웹툴</a>
-  <span class="eyebrow">고등학교 통합과학 · 인터랙티브 학습 도구</span>
-  <h1 class="display">통합과학<br>관측 스테이션</h1>
-  <p>통합과학은 1권과 2권으로 나뉘며, 과학의 다섯 영역(물질과 규칙성, 시스템과 상호작용, 변화와 다양성, 환경과 에너지, 과학과 미래 사회)을 통합적으로 다룹니다. 아래에서 학습할 책을 선택하세요.</p>
-  <div class="qr-block">
-    <button class="qr-toggle" id="qrToggle" type="button" aria-expanded="false">
-      <span>📱 QR 코드</span><span class="qr-caret">▾</span>
-    </button>
-    <div class="qr-panel" id="qrPanel" hidden>
-      <p class="qr-hint">학생들이 휴대폰이나 태블릿으로 찍으면 이 페이지로 바로 접속됩니다.</p>
-      <div class="qr-code" id="qrCode"></div>
-      <p class="qr-url" id="qrUrl"></p>
-    </div>
-  </div>
+<a class="back" href="https://wmfsljy-coder.github.io/science-teacher-hub/">← 지구과학 웹툴</a>
+<span class="eyebrow">고등학교 통합과학 · 인터랙티브 학습 도구</span>
+<h1 class="display">통합과학<br>관측 스테이션</h1>
+<p>통합과학은 1권과 2권으로 나뉘며, 과학의 다섯 영역(물질과 규칙성, 시스템과 상호작용, 변화와 다양성, 환경과 에너지, 과학과 미래 사회)을 통합적으로 다룹니다. 아래에서 학습할 책을 선택하세요.</p>
+<div class="qr-block">
+<button class="qr-toggle" id="qrToggle" type="button" aria-expanded="false">
+<span>📱 QR 코드</span><span class="qr-caret">▾</span>
+</button>
+<div class="qr-panel" id="qrPanel" hidden>
+<p class="qr-hint">학생들이 휴대폰이나 태블릿으로 찍으면 이 페이지로 바로 접속됩니다.</p>
+<div class="qr-code" id="qrCode"></div>
+<p class="qr-url" id="qrUrl"></p>
+</div>
+</div>
 </div>
 
 <div class="grid">
-  <a class="book-card c-coral" href="https://wmfsljy-coder.github.io/integrated-science-1/">
-    <div class="icon-badge">🧪</div>
-    <h3 class="display">통합과학1</h3>
-    <p>과학의 기초, 물질과 규칙성, 시스템과 상호작용을 다룹니다. 원소의 생성부터 지구시스템, 역학·생명 시스템까지 폭넓게 학습합니다.</p>
-    <div class="topics"><span>과학의 기본량</span><span>주기율표</span><span>지구시스템</span><span>운동량 보존</span><span>유전정보 흐름</span></div>
-    <span class="status-pill">● 7개 단원 완성</span>
-    <div class="go">→</div>
-  </a>
-  <a class="book-card c-cold" href="https://wmfsljy-coder.github.io/integrated-science-2/">
-    <div class="icon-badge">⚛️</div>
-    <h3 class="display">통합과학2</h3>
-    <p>변화와 다양성, 환경과 에너지, 과학과 미래 사회를 다룹니다. 생물다양성과 화학 변화부터 에너지 전환, 과학 기술의 쟁점까지 학습합니다.</p>
-    <div class="topics"><span>대멸종</span><span>산과 염기</span><span>생태계 평형</span><span>에너지 효율</span><span>과학 윤리</span></div>
-    <span class="status-pill">● 6개 단원 완성</span>
-    <div class="go">→</div>
-  </a>
+<a class="book-card c-coral" href="https://wmfsljy-coder.github.io/integrated-science-1/">
+<div class="icon-badge">🧪</div>
+<h3 class="display">통합과학1</h3>
+<p>과학의 기초, 물질과 규칙성, 시스템과 상호작용을 다룹니다. 원소의 생성부터 지구시스템, 역학·생명 시스템까지 폭넓게 학습합니다.</p>
+<div class="topics"><span>과학의 기본량</span><span>주기율표</span><span>지구시스템</span><span>운동량 보존</span><span>유전정보 흐름</span></div>
+<span class="status-pill">● 7개 단원 완성</span>
+<div class="go">→</div>
+</a>
+<a class="book-card c-cold" href="https://wmfsljy-coder.github.io/integrated-science-2/">
+<div class="icon-badge">⚛️</div>
+<h3 class="display">통합과학2</h3>
+<p>변화와 다양성, 환경과 에너지, 과학과 미래 사회를 다룹니다. 생물다양성과 화학 변화부터 에너지 전환, 과학 기술의 쟁점까지 학습합니다.</p>
+<div class="topics"><span>대멸종</span><span>산과 염기</span><span>생태계 평형</span><span>에너지 효율</span><span>과학 윤리</span></div>
+<span class="status-pill">● 6개 단원 완성</span>
+<div class="go">→</div>
+</a>
 </div>
 
 <button class="theme-toggle" id="themeToggle">라이트 모드</button>
-<script>
-(function () {
-  "use strict";
-  var root = document.documentElement;
-  var themeBtn = document.getElementById("themeToggle");
-  themeBtn.addEventListener("click", function () {
-    var cur = root.getAttribute("data-theme");
-    var next = cur === "dark" ? "light" : "dark";
-    root.setAttribute("data-theme", next);
-    themeBtn.textContent = next === "dark" ? "라이트 모드" : "다크 모드";
-  });
-})();
-</script>
 <script src="assets/qrcode.js"></script>
 <script>
 (function () {
-  var toggle = document.getElementById("qrToggle");
-  var panel = document.getElementById("qrPanel");
-  var holder = document.getElementById("qrCode");
-  var urlEl = document.getElementById("qrUrl");
-  var pageUrl = "https://wmfsljy-coder.github.io/integrated-science/";
-  var built = false;
-  toggle.addEventListener("click", function () {
-    var willOpen = panel.hidden;
-    panel.hidden = !willOpen;
-    toggle.setAttribute("aria-expanded", String(willOpen));
-    toggle.classList.toggle("open", willOpen);
-    if (willOpen && !built) {
-      var qr = qrcode(0, "M");
-      qr.addData(pageUrl);
-      qr.make();
-      holder.innerHTML = qr.createSvgTag(4);
-      urlEl.textContent = pageUrl;
-      built = true;
-    }
-  });
+var toggle = document.getElementById("qrToggle");
+var panel = document.getElementById("qrPanel");
+var holder = document.getElementById("qrCode");
+var urlEl = document.getElementById("qrUrl");
+var pageUrl = "https://wmfsljy-coder.github.io/integrated-science/";
+var built = false;
+toggle.addEventListener("click", function () {
+var willOpen = panel.hidden;
+panel.hidden = !willOpen;
+toggle.setAttribute("aria-expanded", String(willOpen));
+toggle.classList.toggle("open", willOpen);
+if (willOpen && !built) {
+var qr = qrcode(0, "M");
+qr.addData(pageUrl);
+qr.make();
+holder.innerHTML = qr.createSvgTag(4);
+urlEl.textContent = pageUrl;
+built = true;
+}
+});
 })();
 </script>
 </body>
