@@ -90,16 +90,7 @@ align-items: center; gap: 10px; max-width: 260px; box-shadow: 0 10px 24px -8px r
 <span class="eyebrow">고등학교 통합과학 · 인터랙티브 학습 도구</span>
 <h1 class="display">통합과학<br>관측 스테이션</h1>
 <p>통합과학은 1권과 2권으로 나뉘며, 과학의 다섯 영역(물질과 규칙성, 시스템과 상호작용, 변화와 다양성, 환경과 에너지, 과학과 미래 사회)을 통합적으로 다룹니다. 아래에서 학습할 책을 선택하세요.</p>
-<div class="qr-block">
-<button class="qr-toggle" id="qrToggle" type="button" aria-expanded="false">
-<span>📱 QR 코드</span><span class="qr-caret">▾</span>
-</button>
-<div class="qr-panel" id="qrPanel" hidden>
-<p class="qr-hint">학생들이 휴대폰이나 태블릿으로 찍으면 이 페이지로 바로 접속됩니다.</p>
-<div class="qr-code" id="qrCode"></div>
-<p class="qr-url" id="qrUrl"></p>
-</div>
-</div>
+<div class="qr-block"><a class="qr-toggle" href="https://wmfsljy-coder.github.io/science-teacher-hub/qr/?s=%ED%86%B5%ED%95%A9%EA%B3%BC%ED%95%99"><span>📱 단원별 학생 입장 QR</span><span class="qr-caret">→</span></a></div>
 </div>
 
 <div class="grid">
@@ -122,30 +113,5 @@ align-items: center; gap: 10px; max-width: 260px; box-shadow: 0 10px 24px -8px r
 </div>
 
 <button class="theme-toggle" id="themeToggle">라이트 모드</button>
-<script src="assets/qrcode.js"></script>
-<script>
-(function () {
-var toggle = document.getElementById("qrToggle");
-var panel = document.getElementById("qrPanel");
-var holder = document.getElementById("qrCode");
-var urlEl = document.getElementById("qrUrl");
-var pageUrl = "https://wmfsljy-coder.github.io/integrated-science/";
-var built = false;
-toggle.addEventListener("click", function () {
-var willOpen = panel.hidden;
-panel.hidden = !willOpen;
-toggle.setAttribute("aria-expanded", String(willOpen));
-toggle.classList.toggle("open", willOpen);
-if (willOpen && !built) {
-var qr = qrcode(0, "M");
-qr.addData(pageUrl);
-qr.make();
-holder.innerHTML = qr.createSvgTag(4);
-urlEl.textContent = pageUrl;
-built = true;
-}
-});
-})();
-</script>
 </body>
 </html>
